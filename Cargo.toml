@@ -1,0 +1,13 @@
+[package]
+name = "guv"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+clap = { version = "4.4.8", features = ["derive"] }
+shellexpand = "3.1.0"
+dirs = "5.0.1"
+anyhow = "1.0.75" # For easy error handling
+serde = { version = "1.0", features = ["derive"] } # If we want to parse pyproject.toml (optional for now)
+toml = "0.8.8" # If we want to create/write pyproject.toml
+thiserror = "1.0.50"
