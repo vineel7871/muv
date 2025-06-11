@@ -53,9 +53,10 @@ pub struct InitArgs {
 }
 
 #[derive(Args, Debug)]
-pub struct EnvNameArg { // MUST be pub
-    /// Name of the environment
-    pub name: String,
+pub struct EnvNameArg {
+    /// Name of the environment (optional if an environment is active)
+    #[clap(short, long, value_name = "ENV_NAME")]
+    pub name: Option<String>, // Changed to Option<String>
 }
 
 #[derive(Args, Debug)]
@@ -69,12 +70,15 @@ pub struct DeleteArgs { // MUST be pub
 
 
 #[derive(Args, Debug)]
-pub struct PackageManagementArgs { // MUST be pub
-    /// Name of the environment
-    pub env_name: String,
+pub struct PackageManagementArgs {
+    /// Name of the environment (optional if an environment is active)
+    #[clap(short, long, value_name = "ENV_NAME")]
+    pub env_name: Option<String>, // Changed to Option<String>
+
     /// Packages to manage (e.g., requests, numpy, "flask>=2.0")
     #[clap(required = true, num_args = 1..)]
     pub packages: Vec<String>,
+    // Potentially add other uv flags like --dev, --extras, etc.
 }
 
 #[derive(Args, Debug)]

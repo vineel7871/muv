@@ -4,10 +4,10 @@ use crate::PackageManagementArgs;
 use anyhow::Result;
 
 pub fn handle_remove(args: PackageManagementArgs) -> Result<()> {
-    let env_path = utils::ensure_env_exists(&args.env_name)?;
+    let (env_path, env_name) = utils::get_active_or_specified_env(args.env_name.as_ref())?;
     println!(
         "Removing package(s) [{}] from environment '{}' pyproject.toml and uninstalling...",
-        args.packages.join(", "), args.env_name
+        args.packages.join(", "), env_name
     );
     
     let mut uv_cmd_args = vec!["remove"];
@@ -17,6 +17,6 @@ pub fn handle_remove(args: PackageManagementArgs) -> Result<()> {
     // uv remove operates on pyproject.toml in current_dir
     utils::run_uv_command(&uv_cmd_args, Some(&env_path), vec![])?;
 
-    println!("Package(s) removed and uninstalled successfully from '{}'.", args.env_name);
+    println!("Package(s) removed and uninstalled successfully from '{}'.", env_name);
     Ok(())
 }

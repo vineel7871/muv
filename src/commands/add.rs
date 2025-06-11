@@ -1,13 +1,15 @@
 // src/commands/add.rs
 use crate::utils;
-use crate::PackageManagementArgs;
+use crate::PackageManagementArgs; // From main.rs, env_name is Option<String>
 use anyhow::Result;
 
 pub fn handle_add(args: PackageManagementArgs) -> Result<()> {
-    let env_path = utils::ensure_env_exists(&args.env_name)?;
+    // Get the environment path and name, prioritizing active env
+    let (env_path, env_name) = utils::get_active_or_specified_env(args.env_name.as_ref())?;
+
     println!(
         "Adding package(s) [{}] to environment '{}' pyproject.toml and installing...",
-        args.packages.join(", "), args.env_name
+        args.packages.join(", "), env_name
     );
 
     let mut uv_cmd_args = vec!["add"];
@@ -17,6 +19,6 @@ pub fn handle_add(args: PackageManagementArgs) -> Result<()> {
     // uv add operates on pyproject.toml in current_dir
     utils::run_uv_command(&uv_cmd_args, Some(&env_path), vec![])?;
 
-    println!("Package(s) added and installed successfully in '{}'.", args.env_name);
+    println!("Package(s) added and installed successfully in '{}'.", env_name);
     Ok(())
 }

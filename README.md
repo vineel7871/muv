@@ -5,7 +5,7 @@
 
 - Manage multiple global environments for various languages and tools.
 - Simple CLI for creating, activating, and removing environments.
-- Fast and lightweight, designed for macOS.
+- Fast and lightweight, designed for macOS and linux distros.
 
 ## Installation
 

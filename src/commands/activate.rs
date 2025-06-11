@@ -5,7 +5,7 @@ use anyhow::Result;
 // std::env is not directly needed here as we are printing commands for the shell to execute
 
 pub fn handle_activate_for_shell_export(args: EnvNameArg) -> Result<()> {
-    let env_path = utils::ensure_env_exists(&args.name)?;
+    let (env_path, env_name) = utils::get_active_or_specified_env(args.name.as_ref())?;
     let env_bin_path = env_path.join("bin");
 
     // Important: These commands are for POSIX-like shells (bash, zsh).
@@ -24,11 +24,11 @@ pub fn handle_activate_for_shell_export(args: EnvNameArg) -> Result<()> {
 
     // 3. Set VIRTUAL_ENV
     println!("export VIRTUAL_ENV=\"{}\"", env_path.display());
-    println!("export GUV_ENV_NAME=\"{}\"", args.name); // For prompt and tracking
+    println!("export GUV_ENV_NAME=\"{}\"", env_name); // For prompt and tracking
 
     // 4. Update PS1 (prompt)
     // Handle case where PS1 might be unset or empty
-    println!("if [ -n \"${{PS1+x}}\" ]; then PS1=\"({}) $PS1\"; else PS1=\"({}) \"; fi", args.name, args.name);
+    println!("if [ -n \"${{PS1+x}}\" ]; then PS1=\"({}) $PS1\"; else PS1=\"({}) \"; fi", env_name, env_name);
 
     // 5. Clear PYTHONHOME (common practice for venvs to avoid conflicts)
     println!("if [ -n \"${{PYTHONHOME+x}}\" ]; then unset PYTHONHOME; fi");
