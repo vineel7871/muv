@@ -1,58 +1,40 @@
 # guv
-**guv** is a global environment management tool for macOS, inspired by [UV](https://github.com/astral-sh/uv). It helps you manage and switch between different development environments seamlessly.
+
+A command-line tool for managing global Python virtual environments using uv.
 
 ## Features
 
-- Manage multiple global environments for various languages and tools.
-- Simple CLI for creating, activating, and removing environments.
-- Fast and lightweight, designed for macOS and linux distros.
+- Create and manage Python virtual environments
+- Install and uninstall packages
+- Activate and deactivate environments
+- List available environments
+- Run commands within environments
 
 ## Installation
 
-```sh
-git clone https://github.com/yourusername/guv.git
-cd guv
-cargo install --path .
+```bash
+cargo install guv
 ```
 
 ## Usage
 
-### Initial Setup
-
-Before using guv, run the following command to set up the environment:
-
-```sh
+```bash
+# Initialize guv in your shell
 guv init
+
+# Create a new environment
+guv create myenv --python 3.10
+
+# Activate an environment
+guv activate myenv
+
+# Install packages
+guv install numpy pandas
+
+# Run a command in an environment
+guv run myenv python script.py
 ```
-
-### Create a new environment
-
-```sh
-guv create <env-name>
-```
-
-### List environments
-
-```sh
-guv list
-```
-
-### Activate an environment
-
-```sh
-guv activate <env-name>
-```
-
-### Remove an environment
-
-```sh
-guv remove <env-name>
-```
-
-## Contributing
-
-Contributions are welcome! Please open issues or pull requests.
 
 ## License
 
-This project is licensed under the Apache License.
+MIT

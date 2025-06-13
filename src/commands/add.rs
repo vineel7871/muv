@@ -2,7 +2,7 @@ use crate::utils;
 use crate::PackageManagementArgs;
 use anyhow::Result;
 
-pub fn handle_add(args: PackageManagementArgs) -> Result<()> {
+pub fn _handle_add(args: PackageManagementArgs) -> Result<()> {
     // Get the environment path and name, prioritizing active env
     let (env_path, env_name) = utils::get_active_or_specified_env(args.env_name.as_ref())?;
 

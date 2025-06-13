@@ -2,12 +2,23 @@
 name = "guv"
 version = "0.1.0"
 edition = "2024"
+description = "Global environment management tool using uv"
+authors = ["Vineel Kotapati <vineel7871@outlook.com>"]
+license = "MIT"
+repository = "https://github.com/vineel7871/guv"
+documentation = "https://docs.rs/guv"
+readme = "README.md"
+keywords = ["python", "environment", "uv", "virtualenv"]
+categories = ["command-line-utilities", "development-tools"]
 
 [dependencies]
 clap = { version = "4.4.8", features = ["derive"] }
 shellexpand = "3.1.0"
 dirs = "5.0.1"
-anyhow = "1.0.75" # For easy error handling
+anyhow = "1.0.75"
 serde = { version = "1.0", features = ["derive"] }
-toml = "0.8.8" # If we want to create/write pyproject.toml
+toml = "0.8.8"
 thiserror = "1.0.50"
+
+[dev-dependencies]
+tempfile = "3.2"

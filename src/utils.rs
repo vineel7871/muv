@@ -100,7 +100,7 @@ pub fn get_command_output(program: &str, args: &[&str], current_dir: Option<&Pat
         .map_err(|e| GuvError::UvCommandFailed(format!("Failed to parse output as UTF-8: {}", e)))
 }
 
-pub fn create_basic_pyproject_toml(project_path: &Path) -> Result<()> {
+pub fn _create_basic_pyproject_toml(project_path: &Path) -> Result<()> {
     let toml_content = r#"[project]
 name = "guv-environment"
 version = "0.1.0"

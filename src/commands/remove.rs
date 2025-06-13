@@ -2,7 +2,7 @@ use crate::utils;
 use crate::PackageManagementArgs;
 use anyhow::Result;
 
-pub fn handle_remove(args: PackageManagementArgs) -> Result<()> {
+pub fn _handle_remove(args: PackageManagementArgs) -> Result<()> {
     let (env_path, env_name) = utils::get_active_or_specified_env(args.env_name.as_ref())?;
     println!(
         "Removing package(s) [{}] from environment '{}' pyproject.toml and uninstalling...",
