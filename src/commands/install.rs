@@ -1,5 +1,5 @@
-use crate::utils;
 use crate::PackageManagementArgs;
+use crate::utils;
 use anyhow::Result;
 
 pub fn handle_install(args: PackageManagementArgs) -> Result<()> {
@@ -7,7 +7,8 @@ pub fn handle_install(args: PackageManagementArgs) -> Result<()> {
 
     println!(
         "Installing package(s) [{}] into environment '{}'...",
-        args.packages.join(", "), env_name
+        args.packages.join(", "),
+        env_name
     );
 
     let mut uv_cmd_args = vec!["pip", "install"];
@@ -16,7 +17,11 @@ pub fn handle_install(args: PackageManagementArgs) -> Result<()> {
     }
 
     // Tell uv to use this specific virtual environment
-    utils::run_uv_command(&uv_cmd_args, None, vec![(utils::ACTIVE_ENV_VAR, env_path.as_path())])?;
+    utils::run_uv_command(
+        &uv_cmd_args,
+        None,
+        vec![(utils::ACTIVE_ENV_VAR, env_path.as_path())],
+    )?;
 
     println!("Package(s) installed successfully in '{}'.", env_name);
     Ok(())

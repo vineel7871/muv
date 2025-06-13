@@ -1,8 +1,8 @@
 use crate::error::{GuvError, Result};
+use std::env;
+use std::fs;
 use std::path::{Path, PathBuf};
 use std::process::{Command, Stdio};
-use std::fs;
-use std::env;
 
 pub const ACTIVE_ENV_VAR: &str = "VIRTUAL_ENV";
 pub const GUV_ACTIVE_ENV_NAME_VAR: &str = "GUV_ENV_NAME";
@@ -50,7 +50,11 @@ pub fn check_uv_exists() -> Result<()> {
         })
 }
 
-pub fn run_uv_command(args: &[&str], current_dir: Option<&Path>, env_vars: Vec<(&str, &Path)>) -> Result<()> {
+pub fn run_uv_command(
+    args: &[&str],
+    current_dir: Option<&Path>,
+    env_vars: Vec<(&str, &Path)>,
+) -> Result<()> {
     let mut cmd = Command::new("uv");
     cmd.args(args);
     if let Some(dir) = current_dir {
@@ -60,11 +64,11 @@ pub fn run_uv_command(args: &[&str], current_dir: Option<&Path>, env_vars: Vec<(
         cmd.env(key, val);
     }
 
-    dbg!(&cmd);
+    // dbg!(&cmd);
     let status = cmd
         .status()
         .map_err(|e| GuvError::UvCommandFailed(format!("Failed to execute uv: {}", e)))?;
-    dbg!(&status);
+    // dbg!(&status);
     if !status.success() {
         let err_msg = format!("uv {} failed with status: {}", args.join(" "), status);
         return Err(GuvError::UvCommandFailed(err_msg));
@@ -72,13 +76,18 @@ pub fn run_uv_command(args: &[&str], current_dir: Option<&Path>, env_vars: Vec<(
     Ok(())
 }
 
-pub fn get_command_output(program: &str, args: &[&str], current_dir: Option<&Path>, env_vars: Vec<(&str, &Path)>) -> Result<String> {
+pub fn get_command_output(
+    program: &str,
+    args: &[&str],
+    current_dir: Option<&Path>,
+    env_vars: Vec<(&str, &Path)>,
+) -> Result<String> {
     let mut cmd = Command::new(program);
     cmd.args(args);
     if let Some(dir) = current_dir {
         cmd.current_dir(dir);
     }
-     for (key, val) in env_vars {
+    for (key, val) in env_vars {
         cmd.env(key, val);
     }
 
@@ -121,15 +130,16 @@ pub fn get_active_or_specified_env(env_name_arg: Option<&String>) -> Result<(Pat
     {
         let active_env_path = PathBuf::from(active_env_path_str);
         let envs_dir = get_envs_dir()?;
-        if active_env_path.starts_with(&envs_dir) &&
-           active_env_path.file_name().and_then(|s| s.to_str()) == Some(&active_guv_name) &&
-           active_env_path.join("pyvenv.cfg").exists() {
-
+        if active_env_path.starts_with(&envs_dir)
+            && active_env_path.file_name().and_then(|s| s.to_str()) == Some(&active_guv_name)
+            && active_env_path.join("pyvenv.cfg").exists()
+        {
             if let Some(name_arg) = env_name_arg {
                 if name_arg != &active_guv_name {
                     return Err(GuvError::Anyhow(anyhow::anyhow!(
                         "An environment ('{}') is already active, but you specified a different one ('{}').\nDeactivate the current environment or omit the environment name argument.",
-                        active_guv_name, name_arg
+                        active_guv_name,
+                        name_arg
                     )));
                 }
             }
@@ -137,7 +147,7 @@ pub fn get_active_or_specified_env(env_name_arg: Option<&String>) -> Result<(Pat
             return Ok((active_env_path, active_guv_name));
         } else {
             if env_name_arg.is_none() {
-                 return Err(GuvError::Anyhow(anyhow::anyhow!(
+                return Err(GuvError::Anyhow(anyhow::anyhow!(
                     "A virtual environment is active (VIRTUAL_ENV={}), but it does not appear to be a GUV-managed environment or GUV_ENV_NAME is not set/inconsistent.\nPlease specify a GUV environment name or activate a GUV environment.",
                     active_env_path.display()
                 )));

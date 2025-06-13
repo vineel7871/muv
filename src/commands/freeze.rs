@@ -1,5 +1,5 @@
-use crate::utils;
 use crate::EnvNameArg;
+use crate::utils;
 use anyhow::Result;
 
 pub fn handle_freeze(args: EnvNameArg) -> Result<()> {
@@ -9,8 +9,8 @@ pub fn handle_freeze(args: EnvNameArg) -> Result<()> {
     let output = utils::get_command_output(
         "uv",
         &["pip", "freeze"],
-        None, // current_dir
-        vec![(utils::ACTIVE_ENV_VAR, env_path.as_path())] // env_vars
+        None,                                              // current_dir
+        vec![(utils::ACTIVE_ENV_VAR, env_path.as_path())], // env_vars
     )?;
     print!("{}", output); // Output already has newlines
     Ok(())

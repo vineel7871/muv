@@ -1,5 +1,5 @@
-use crate::utils;
 use crate::EnvNameArg;
+use crate::utils;
 use anyhow::Result;
 
 pub fn handle_path(args: EnvNameArg) -> Result<()> {

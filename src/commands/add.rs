@@ -1,5 +1,5 @@
-use crate::utils;
 use crate::PackageManagementArgs;
+use crate::utils;
 use anyhow::Result;
 
 pub fn _handle_add(args: PackageManagementArgs) -> Result<()> {
@@ -8,7 +8,8 @@ pub fn _handle_add(args: PackageManagementArgs) -> Result<()> {
 
     println!(
         "Adding package(s) [{}] to environment '{}' pyproject.toml and installing...",
-        args.packages.join(", "), env_name
+        args.packages.join(", "),
+        env_name
     );
 
     let mut uv_cmd_args = vec!["add"];
@@ -18,6 +19,9 @@ pub fn _handle_add(args: PackageManagementArgs) -> Result<()> {
     // uv add operates on pyproject.toml in current_dir
     utils::run_uv_command(&uv_cmd_args, Some(&env_path), vec![])?;
 
-    println!("Package(s) added and installed successfully in '{}'.", env_name);
+    println!(
+        "Package(s) added and installed successfully in '{}'.",
+        env_name
+    );
     Ok(())
 }

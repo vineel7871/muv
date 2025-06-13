@@ -1,5 +1,5 @@
-use crate::utils;
 use crate::EnvNameArg;
+use crate::utils;
 use anyhow::Result;
 // std::env
 
@@ -15,7 +15,9 @@ pub fn handle_activate_for_shell_export(args: EnvNameArg) -> Result<()> {
     println!("if [ -z \"$GUV_OLD_PATH\" ]; then export GUV_OLD_PATH=\"$PATH\"; fi");
     println!("if [ -z \"$GUV_OLD_PS1\" ]; then export GUV_OLD_PS1=\"$PS1\"; fi");
     // Save original PYTHONHOME if it exists
-    println!("if [ -n \"${{PYTHONHOME+x}}\" ] && [ -z \"$_GUV_OLD_VIRTUAL_PYTHONHOME\" ]; then export _GUV_OLD_VIRTUAL_PYTHONHOME=\"$PYTHONHOME\"; fi");
+    println!(
+        "if [ -n \"${{PYTHONHOME+x}}\" ] && [ -z \"$_GUV_OLD_VIRTUAL_PYTHONHOME\" ]; then export _GUV_OLD_VIRTUAL_PYTHONHOME=\"$PYTHONHOME\"; fi"
+    );
 
     // 2. Set new PATH
     // This simple prepend is usually what venv activate scripts do.
@@ -27,14 +29,18 @@ pub fn handle_activate_for_shell_export(args: EnvNameArg) -> Result<()> {
 
     // 4. Update PS1 (prompt)
     // Handle case where PS1 might be unset or empty
-    println!("if [ -n \"${{PS1+x}}\" ]; then PS1=\"({}) $PS1\"; else PS1=\"({}) \"; fi", env_name, env_name);
+    println!(
+        "if [ -n \"${{PS1+x}}\" ]; then PS1=\"({}) $PS1\"; else PS1=\"({}) \"; fi",
+        env_name, env_name
+    );
 
     // 5. Clear PYTHONHOME (common practice for venvs to avoid conflicts)
     println!("if [ -n \"${{PYTHONHOME+x}}\" ]; then unset PYTHONHOME; fi");
 
     // 6. Define a deactivate function that can be called by typing 'deactivate'
     // This makes it behave more like standard virtual environments.
-    println!(r#"
+    println!(
+        r#"
 if declare -f -F deactivate > /dev/null; then
     eval "$(echo "function _guv_saved_deactivate() {{"; declare -f deactivate | tail -n +2; echo "}}")"
 fi
@@ -75,13 +81,13 @@ deactivate() {{
 
     echo "Deactivated GUV environment (via 'deactivate' function)." >&2
 }}
-"#);
+"#
+    );
 
     // Indicate successful activation (to stderr, so it doesn't get `eval`ed)
     // eprintln!("GUV environment '{}' activated. To deactivate, type 'deactivate' or run 'guv deactivate'.", args.name);
     // Crucial: Ensure the last command for eval is simple or returns 0
     println!(": # GUV activation successful marker");
-
 
     Ok(())
 }

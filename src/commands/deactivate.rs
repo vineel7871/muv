@@ -30,9 +30,12 @@ pub fn handle_deactivate_for_shell_export() -> Result<()> {
 
     // 5. Undefine the 'deactivate' function if it exists and was ours
     // Check for GUV_OLD_PS1 as a proxy for whether our activate was run
-    println!("if [ -n \"${{GUV_OLD_PS1+x}}\" ] && declare -f -F deactivate > /dev/null; then unset -f deactivate; fi");
-    println!("if declare -f -F _guv_saved_deactivate > /dev/null; then unset -f _guv_saved_deactivate; fi");
-
+    println!(
+        "if [ -n \"${{GUV_OLD_PS1+x}}\" ] && declare -f -F deactivate > /dev/null; then unset -f deactivate; fi"
+    );
+    println!(
+        "if declare -f -F _guv_saved_deactivate > /dev/null; then unset -f _guv_saved_deactivate; fi"
+    );
 
     eprintln!("GUV environment deactivated.");
     // Crucial: Ensure the last command for eval is simple or returns 0

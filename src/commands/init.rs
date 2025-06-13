@@ -1,8 +1,8 @@
 use crate::InitArgs;
-use anyhow::{Result, bail, Context};
+use anyhow::{Context, Result, bail};
 use std::env;
 use std::fs::{OpenOptions, read_to_string};
-use std::io::{Write};
+use std::io::Write;
 use std::path::PathBuf;
 
 const GUV_INIT_BLOCK_START: &str = "# GUV INIT START";
@@ -16,7 +16,8 @@ fn get_shell_config_path() -> Result<(String, PathBuf)> {
         .unwrap_or("bash")
         .to_lowercase();
 
-    let home_dir = dirs::home_dir().ok_or_else(|| anyhow::anyhow!("Could not find home directory"))?;
+    let home_dir =
+        dirs::home_dir().ok_or_else(|| anyhow::anyhow!("Could not find home directory"))?;
 
     match shell_name.as_str() {
         "bash" => Ok(("bash".to_string(), home_dir.join(".bashrc"))),
@@ -31,9 +32,13 @@ fn get_shell_config_path() -> Result<(String, PathBuf)> {
 fn generate_guv_function_content() -> Result<String> {
     let current_exe_path = env::current_exe()
         .context("Failed to get current executable path. Please ensure guv is in your PATH or provide the full path.")?;
-    let guv_binary_path_str = current_exe_path.to_str().ok_or_else(|| anyhow::anyhow!("Executable path is not valid UTF-8"))?;
+    let guv_binary_path_str = current_exe_path
+        .to_str()
+        .ok_or_else(|| anyhow::anyhow!("Executable path is not valid UTF-8"))?;
 
-    let escaped_guv_binary_path = guv_binary_path_str.replace('\\', "\\\\").replace('"', "\\\"");
+    let escaped_guv_binary_path = guv_binary_path_str
+        .replace('\\', "\\\\")
+        .replace('"', "\\\"");
 
     Ok(format!(
         r#"# GUV shell functions
@@ -108,9 +113,13 @@ guv() {{
 fn generate_shell_script_content() -> Result<String> {
     let current_exe_path = env::current_exe()
         .context("Failed to get current executable path. Please ensure guv is in your PATH or provide the full path.")?;
-    let guv_binary_path_str = current_exe_path.to_str().ok_or_else(|| anyhow::anyhow!("Executable path is not valid UTF-8"))?;
+    let guv_binary_path_str = current_exe_path
+        .to_str()
+        .ok_or_else(|| anyhow::anyhow!("Executable path is not valid UTF-8"))?;
 
-    let escaped_guv_binary_path = guv_binary_path_str.replace('\\', "\\\\").replace('"', "\\\"");
+    let escaped_guv_binary_path = guv_binary_path_str
+        .replace('\\', "\\\\")
+        .replace('"', "\\\"");
 
     Ok(format!(
         r#"
@@ -157,7 +166,8 @@ fn remove_existing_guv_block(content: &str) -> String {
 
 pub fn handle_init(args: InitArgs) -> Result<()> {
     let (shell_name, config_path) = get_shell_config_path()?;
-    let home_dir = dirs::home_dir().ok_or_else(|| anyhow::anyhow!("Could not find home directory"))?;
+    let home_dir =
+        dirs::home_dir().ok_or_else(|| anyhow::anyhow!("Could not find home directory"))?;
     let functions_path = home_dir.join(".guv-functions.sh");
 
     println!(
@@ -167,10 +177,17 @@ pub fn handle_init(args: InitArgs) -> Result<()> {
     );
 
     let mut config_content = if config_path.exists() {
-        read_to_string(&config_path)
-            .with_context(|| format!("Failed to read shell config file: {}", config_path.display()))?
+        read_to_string(&config_path).with_context(|| {
+            format!(
+                "Failed to read shell config file: {}",
+                config_path.display()
+            )
+        })?
     } else {
-        println!("Shell config file {} does not exist. It will be created.", config_path.display());
+        println!(
+            "Shell config file {} does not exist. It will be created.",
+            config_path.display()
+        );
         String::new()
     };
 
@@ -179,7 +196,10 @@ pub fn handle_init(args: InitArgs) -> Result<()> {
             println!("GUV seems to be already initialized. --force specified, re-initializing...");
             config_content = remove_existing_guv_block(&config_content);
         } else {
-            println!("GUV seems to be already initialized in {}.", config_path.display());
+            println!(
+                "GUV seems to be already initialized in {}.",
+                config_path.display()
+            );
             println!("To re-initialize, run 'guv init --force'.");
             println!("To apply changes, please source your shell config or open a new terminal:");
             println!("  source {}", config_path.display());
@@ -193,9 +213,15 @@ pub fn handle_init(args: InitArgs) -> Result<()> {
         .create(true)
         .truncate(true)
         .open(&functions_path)
-        .with_context(|| format!("Failed to create functions file: {}", functions_path.display()))?;
-    
-    functions_file.write_all(functions_content.as_bytes())
+        .with_context(|| {
+            format!(
+                "Failed to create functions file: {}",
+                functions_path.display()
+            )
+        })?;
+
+    functions_file
+        .write_all(functions_content.as_bytes())
         .with_context(|| format!("Failed to write to {}", functions_path.display()))?;
 
     let script_to_add = generate_shell_script_content()?;
@@ -218,7 +244,10 @@ pub fn handle_init(args: InitArgs) -> Result<()> {
     file.write_all(config_content.as_bytes())
         .with_context(|| format!("Failed to write to {}", config_path.display()))?;
 
-    println!("\nGUV initialization script added to {}.", config_path.display());
+    println!(
+        "\nGUV initialization script added to {}.",
+        config_path.display()
+    );
     println!("GUV functions written to {}.", functions_path.display());
     println!("Please source your shell config file or open a new terminal to apply changes:");
     println!("  source {}", config_path.display());

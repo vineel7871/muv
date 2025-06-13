@@ -1,5 +1,5 @@
-use crate::{utils, error::GuvError};
 use crate::DeleteArgs;
+use crate::{error::GuvError, utils};
 use anyhow::Result;
 use std::io::{self, Write};
 
@@ -7,7 +7,11 @@ pub fn handle_delete(args: DeleteArgs) -> Result<()> {
     let env_path = utils::ensure_env_exists(&args.name)?;
 
     if !args.yes {
-        print!("Are you sure you want to delete environment '{}' at {}? [y/N]: ", args.name, env_path.display());
+        print!(
+            "Are you sure you want to delete environment '{}' at {}? [y/N]: ",
+            args.name,
+            env_path.display()
+        );
         io::stdout().flush()?;
         let mut confirmation = String::new();
         io::stdin().read_line(&mut confirmation)?;

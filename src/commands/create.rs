@@ -1,7 +1,7 @@
-use crate::{utils, error::GuvError};
 use crate::CreateArgs;
-use std::fs;
+use crate::{error::GuvError, utils};
 use anyhow::Result;
+use std::fs;
 
 pub fn handle_create(args: CreateArgs) -> Result<()> {
     let env_name = &args.name;
@@ -14,7 +14,11 @@ pub fn handle_create(args: CreateArgs) -> Result<()> {
     }
 
     fs::create_dir_all(&env_path).map_err(GuvError::IoError)?;
-    println!("Creating environment '{}' at {}", env_name, env_path.display());
+    println!(
+        "Creating environment '{}' at {}",
+        env_name,
+        env_path.display()
+    );
 
     let mut uv_args = vec!["venv"];
     if let Some(python_version) = &args.python {
@@ -23,8 +27,12 @@ pub fn handle_create(args: CreateArgs) -> Result<()> {
     }
     // `uv venv .` or `uv venv <path>` behaviour: if path is specified, it's the target.
     // We want to create it IN env_path, so we can pass env_path as the argument.
-    uv_args.push(env_path.to_str().ok_or_else(|| anyhow::anyhow!("Invalid path"))?);
-    
+    uv_args.push(
+        env_path
+            .to_str()
+            .ok_or_else(|| anyhow::anyhow!("Invalid path"))?,
+    );
+
     utils::run_uv_command(&uv_args, None, vec![])?;
 
     // Create a basic pyproject.toml
@@ -38,6 +46,28 @@ pub fn handle_create(args: CreateArgs) -> Result<()> {
     // println!("Lockfile created.");
 
     println!("Environment '{}' created successfully.", env_name);
+
+    if args.packages.len() > 0 {
+        println!(
+            "Installing package(s) [{}] into environment '{}'...",
+            args.packages.join(", "),
+            env_name
+        );
+
+        let mut uv_cmd_args = vec!["pip", "install"];
+        for pkg in &args.packages {
+            uv_cmd_args.push(pkg.as_str());
+        }
+
+        // Tell uv to use this specific virtual environment
+        utils::run_uv_command(
+            &uv_cmd_args,
+            None,
+            vec![(utils::ACTIVE_ENV_VAR, env_path.as_path())],
+        )?;
+
+        println!("Package(s) installed successfully in '{}'.", env_name);
+    }
     println!("To activate, run: eval \"$(guv activate {})\"", env_name);
     Ok(())
 }
