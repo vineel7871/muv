@@ -1,4 +1,3 @@
-// src/commands/remove.rs
 use crate::utils;
 use crate::PackageManagementArgs;
 use anyhow::Result;

@@ -1,4 +1,3 @@
-// src/commands/path.rs
 use crate::utils;
 use crate::EnvNameArg;
 use anyhow::Result;

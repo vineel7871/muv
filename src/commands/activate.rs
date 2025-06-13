@@ -1,8 +1,7 @@
-// src/commands/activate.rs
 use crate::utils;
-use crate::EnvNameArg; // Ensure this is pub in main.rs and imported correctly
+use crate::EnvNameArg;
 use anyhow::Result;
-// std::env is not directly needed here as we are printing commands for the shell to execute
+// std::env
 
 pub fn handle_activate_for_shell_export(args: EnvNameArg) -> Result<()> {
     let (env_path, env_name) = utils::get_active_or_specified_env(args.name.as_ref())?;

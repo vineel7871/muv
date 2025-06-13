@@ -1,6 +1,5 @@
-// src/commands/freeze.rs
 use crate::utils;
-use crate::EnvNameArg; // From main.rs, name is Option<String>
+use crate::EnvNameArg;
 use anyhow::Result;
 
 pub fn handle_freeze(args: EnvNameArg) -> Result<()> {

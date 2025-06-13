@@ -1,4 +1,3 @@
-// src/commands/list.rs
 use crate::utils;
 use anyhow::Result;
 

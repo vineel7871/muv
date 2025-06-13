@@ -1,8 +1,7 @@
-// src/commands/create.rs
-use crate::{utils, error::GuvError}; // Using our custom error
-use crate::CreateArgs; // Import the Args struct from main
+use crate::{utils, error::GuvError};
+use crate::CreateArgs;
 use std::fs;
-use anyhow::Result; // Or use crate::error::Result if you defined it
+use anyhow::Result;
 
 pub fn handle_create(args: CreateArgs) -> Result<()> {
     let env_name = &args.name;
@@ -29,8 +28,8 @@ pub fn handle_create(args: CreateArgs) -> Result<()> {
     utils::run_uv_command(&uv_args, None, vec![])?;
 
     // Create a basic pyproject.toml
-    utils::create_basic_pyproject_toml(&env_path)?;
-    println!("Created pyproject.toml in {}", env_path.display());
+    // utils::create_basic_pyproject_toml(&env_path)?;
+    // println!("Created pyproject.toml in {}", env_path.display());
 
     // Optional: automatically create a lock file
     // This assumes the pyproject.toml is valid enough for uv to process.

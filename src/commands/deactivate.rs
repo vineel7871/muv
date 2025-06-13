@@ -1,4 +1,3 @@
-// src/commands/deactivate.rs
 use anyhow::Result;
 
 pub fn handle_deactivate_for_shell_export() -> Result<()> {

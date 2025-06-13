@@ -1,4 +1,3 @@
-// src/commands/uninstall.rs
 use crate::utils;
 use crate::PackageManagementArgs;
 use anyhow::Result;

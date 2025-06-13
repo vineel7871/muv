@@ -1,4 +1,3 @@
-// src/commands/mod.rs
 pub mod create;
 pub mod list;
 pub mod activate;
