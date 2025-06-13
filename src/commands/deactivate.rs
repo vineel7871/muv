@@ -4,6 +4,14 @@ pub fn handle_deactivate_for_shell_export() -> Result<()> {
     // These commands are designed to be run by `eval` from the shell function
     // and assume `guv activate` (or the `deactivate` function it defines) has set things up.
 
+    // Check if GUV environment is active before proceeding with deactivation
+    println!("# Check if GUV environment is active");
+    println!("if [ -z \"${{GUV_ENV_NAME+x}}\" ] && [ -z \"${{GUV_OLD_PS1+x}}\" ]; then");
+    println!("    echo \"No active GUV environment detected.\" >&2");
+    println!("    return 0");
+    println!("fi");
+    println!("");
+
     // 1. Restore PS1
     println!("if [ -n \"${{GUV_OLD_PS1+x}}\" ]; then");
     println!("    export PS1=\"$GUV_OLD_PS1\"");
@@ -37,7 +45,7 @@ pub fn handle_deactivate_for_shell_export() -> Result<()> {
         "if declare -f -F _guv_saved_deactivate > /dev/null; then unset -f _guv_saved_deactivate; fi"
     );
 
-    eprintln!("GUV environment deactivated.");
+    // eprintln!("GUV environment deactivated.");
     // Crucial: Ensure the last command for eval is simple or returns 0
     println!(": # GUV deactivation successful marker");
     Ok(())
