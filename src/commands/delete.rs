@@ -1,5 +1,5 @@
 use crate::DeleteArgs;
-use crate::{error::GuvError, utils};
+use crate::{error::MuvError, utils};
 use anyhow::Result;
 use std::io::{self, Write};
 
@@ -18,12 +18,12 @@ pub fn handle_delete(args: DeleteArgs) -> Result<()> {
         if confirmation.trim().to_lowercase() != "y" {
             // Using anyhow::bail for quick error reporting here
             // Or return Err(GuvError::DeletionNotConfirmed);
-            anyhow::bail!(GuvError::DeletionNotConfirmed);
+            anyhow::bail!(MuvError::DeletionNotConfirmed);
         }
     }
 
     println!("Deleting environment '{}'...", args.name);
-    std::fs::remove_dir_all(&env_path).map_err(GuvError::IoError)?;
+    std::fs::remove_dir_all(&env_path).map_err(MuvError::IoError)?;
     println!("Environment '{}' deleted successfully.", args.name);
     Ok(())
 }

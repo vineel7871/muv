@@ -1,7 +1,7 @@
 use thiserror::Error;
 
 #[derive(Error, Debug)]
-pub enum GuvError {
+pub enum MuvError {
     #[error("Environment '{0}' already exists.")]
     EnvironmentAlreadyExists(String),
     #[error("Environment '{0}' not found.")]
@@ -10,7 +10,7 @@ pub enum GuvError {
     IoError(#[from] std::io::Error),
     #[error("UV command failed: {0}")]
     UvCommandFailed(String),
-    #[error("Failed to determine GUV home directory.")]
+    #[error("Failed to determine MUV home directory.")]
     HomeDirError,
     #[error("User did not confirm deletion.")]
     DeletionNotConfirmed,
@@ -24,4 +24,4 @@ pub enum GuvError {
     Anyhow(#[from] anyhow::Error),
 }
 
-pub type Result<T> = std::result::Result<T, GuvError>;
+pub type Result<T> = std::result::Result<T, MuvError>;

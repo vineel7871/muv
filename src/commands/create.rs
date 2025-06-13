@@ -1,5 +1,5 @@
 use crate::CreateArgs;
-use crate::{error::GuvError, utils};
+use crate::{error::MuvError, utils};
 use anyhow::Result;
 use std::fs;
 
@@ -10,10 +10,10 @@ pub fn handle_create(args: CreateArgs) -> Result<()> {
     if env_path.exists() {
         // Using anyhow::bail for quick error reporting here
         // Or return Err(GuvError::EnvironmentAlreadyExists(env_name.to_string()));
-        anyhow::bail!(GuvError::EnvironmentAlreadyExists(env_name.to_string()));
+        anyhow::bail!(MuvError::EnvironmentAlreadyExists(env_name.to_string()));
     }
 
-    fs::create_dir_all(&env_path).map_err(GuvError::IoError)?;
+    fs::create_dir_all(&env_path).map_err(MuvError::IoError)?;
     println!(
         "Creating environment '{}' at {}",
         env_name,
@@ -68,6 +68,6 @@ pub fn handle_create(args: CreateArgs) -> Result<()> {
 
         println!("Package(s) installed successfully in '{}'.", env_name);
     }
-    println!("To activate, run: eval \"$(guv activate {})\"", env_name);
+    println!("To activate, run: eval \"$(muv activate {})\"", env_name);
     Ok(())
 }

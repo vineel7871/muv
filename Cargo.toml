@@ -1,12 +1,12 @@
 [package]
-name = "guv"
+name = "muv"
 version = "0.1.0"
 edition = "2024"
 description = "Global environment management tool using uv"
 authors = ["Vineel Kotapati <vineel7871@outlook.com>"]
 license = "MIT"
-repository = "https://github.com/vineel7871/guv"
-documentation = "https://docs.rs/guv"
+repository = "https://github.com/vineel7871/muv"
+documentation = "https://docs.rs/muv"
 readme = "README.md"
 keywords = ["python", "environment", "uv", "virtualenv"]
 categories = ["command-line-utilities", "development-tools"]

@@ -1,4 +1,4 @@
-# guv
+# muv
 
 A command-line tool for managing global Python virtual environments using uv.
 
@@ -13,26 +13,26 @@ A command-line tool for managing global Python virtual environments using uv.
 ## Installation
 
 ```bash
-cargo install guv
+cargo install muv
 ```
 
 ## Usage
 
 ```bash
-# Initialize guv in your shell
-guv init
+# Initialize muv in your shell
+muv init
 
 # Create a new environment
-guv create myenv --python 3.10
+muv create myenv --python 3.10
 
 # Activate an environment
-guv activate myenv
+muv activate myenv
 
 # Install packages
-guv install numpy pandas
+muv install numpy pandas
 
 # Run a command in an environment
-guv run myenv python script.py
+muv run myenv python script.py
 ```
 
 ## License

@@ -10,7 +10,7 @@ mod utils;
     author,
     version,
     about = "Global environment management tool using uv",
-    long_about = "guv is a command-line tool for managing global Python virtual environments using uv. \
+    long_about = "muv is a command-line tool for managing global Python virtual environments using uv. \
                     It provides a simple interface for creating, activating, and managing Python environments \
                     with their own isolated packages and dependencies."
 )]
@@ -22,9 +22,9 @@ struct Cli {
 
 #[derive(Subcommand, Debug)]
 pub enum Commands {
-    /// Initialize guv in your shell configuration
+    /// Initialize muv in your shell configuration
     #[clap(
-        long_about = "Initialize guv in your shell configuration to enable environment activation and deactivation"
+        long_about = "Initialize muv in your shell configuration to enable environment activation and deactivation"
     )]
     Init(InitArgs),
 
@@ -35,7 +35,7 @@ pub enum Commands {
     Create(CreateArgs),
 
     /// List all available environments
-    #[clap(long_about = "Display a list of all virtual environments managed by guv")]
+    #[clap(long_about = "Display a list of all virtual environments managed by muv")]
     List,
 
     /// Activate a virtual environment
@@ -70,8 +70,8 @@ pub enum Commands {
     #[clap(long_about = "Display the full filesystem path to the specified environment")]
     Path(EnvNameArg),
 
-    /// Print the guv home directory
-    #[clap(long_about = "Display the path to the guv home directory where environments are stored")]
+    /// Print the muv home directory
+    #[clap(long_about = "Display the path to the muv home directory where environments are stored")]
     Home,
 
     /// Run a command in an environment
@@ -107,7 +107,7 @@ pub struct InitArgs {
     #[clap(
         long,
         help = "Force re-initialization",
-        long_help = "Force re-initialization of guv in your shell configuration even if it's already set up. This will replace any existing guv configuration."
+        long_help = "Force re-initialization of muv in your shell configuration even if it's already set up. This will replace any existing muv configuration."
     )]
     pub force: bool,
 }
