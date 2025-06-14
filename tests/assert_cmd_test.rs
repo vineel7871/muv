@@ -44,11 +44,10 @@ fn test_invalid_command() {
 fn test_home_command() {
     let temp_dir = setup_test_env();
     let muv_home = temp_dir.path().join(".muv");
-    
+
     let mut cmd = Command::cargo_bin("muv").expect("Binary not found");
-    cmd.arg("home")
-        .env("MUV_HOME", muv_home.to_str().unwrap());
-    
+    cmd.arg("home").env("MUV_HOME", muv_home.to_str().unwrap());
+
     cmd.assert()
         .success()
         .stdout(predicate::str::contains(muv_home.to_str().unwrap()));

@@ -12,7 +12,7 @@ pub fn get_muv_home() -> Result<PathBuf> {
     if let Ok(muv_home) = std::env::var("MUV_HOME") {
         return Ok(PathBuf::from(muv_home));
     }
-    
+
     let base_dir = dirs::data_dir()
         .or_else(dirs::home_dir)
         .ok_or(MuvError::HomeDirError)?;

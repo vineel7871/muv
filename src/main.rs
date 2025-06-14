@@ -1,12 +1,12 @@
 use anyhow::Result;
 
+mod cli;
 mod commands;
 mod error;
 mod utils;
-mod cli;
 
-use cli::{Cli, Commands};
 use clap::Parser;
+use cli::{Cli, Commands};
 
 fn main() -> Result<()> {
     if let Err(e) = utils::check_uv_exists() {

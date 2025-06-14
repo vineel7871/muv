@@ -11,11 +11,11 @@ pub fn setup_test_env() -> TempDir {
 pub fn run_muv_command(args: &[&str], env_vars: &[(&str, &str)]) -> std::process::Output {
     let mut cmd = Command::new(env!("CARGO_BIN_EXE_muv"));
     cmd.args(args);
-    
+
     for (key, val) in env_vars {
         cmd.env(key, val);
     }
-    
+
     cmd.output().expect("Failed to execute muv command")
 }
 
