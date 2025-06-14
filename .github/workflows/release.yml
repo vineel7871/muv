@@ -10,6 +10,7 @@ jobs:
     name: Build and upload
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
         include:
           - os: ubuntu-latest
@@ -44,14 +45,25 @@ jobs:
         if: matrix.target == 'aarch64-unknown-linux-gnu'
         run: |
           sudo apt-get update
-          sudo apt-get install -y gcc-aarch64-linux-gnu
+          sudo apt-get install -y gcc-aarch64-linux-gnu libc6-dev-arm64-cross
 
-      - name: Build
+      - name: Install cross
+        if: matrix.target == 'aarch64-unknown-linux-gnu'
+        run: cargo install cross
+
+      - name: Build for Linux
+        if: startsWith(matrix.os, 'ubuntu')
         uses: actions-rs/cargo@v1
         with:
           command: build
           args: --release --target ${{ matrix.target }}
           use-cross: ${{ matrix.target == 'aarch64-unknown-linux-gnu' }}
+          
+      - name: Build for macOS
+        if: startsWith(matrix.os, 'macos')
+        run: |
+          rustup target add ${{ matrix.target }}
+          cargo build --release --target ${{ matrix.target }}
 
       - name: Compress binary
         run: |
@@ -62,8 +74,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: target/${{ matrix.target }}/release/${{ matrix.asset_name }}.tar.gz
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
 
   publish-crate:
     name: Publish to crates.io

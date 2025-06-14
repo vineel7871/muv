@@ -31,12 +31,12 @@ fn get_shell_config_path() -> Result<(String, PathBuf)> {
 
 fn generate_muv_function_content() -> Result<String> {
     let current_exe_path = env::current_exe()
-        .context("Failed to get current executable path. Please ensure guv is in your PATH or provide the full path.")?;
-    let guv_binary_path_str = current_exe_path
+        .context("Failed to get current executable path. Please ensure muv is in your PATH or provide the full path.")?;
+    let muv_binary_path_str = current_exe_path
         .to_str()
         .ok_or_else(|| anyhow::anyhow!("Executable path is not valid UTF-8"))?;
 
-    let escaped_guv_binary_path = guv_binary_path_str
+    let _escaped_muv_binary_path = muv_binary_path_str
         .replace('\\', "\\\\")
         .replace('"', "\\\"");
 
@@ -112,12 +112,12 @@ muv() {{
 
 fn generate_shell_script_content() -> Result<String> {
     let current_exe_path = env::current_exe()
-        .context("Failed to get current executable path. Please ensure guv is in your PATH or provide the full path.")?;
-    let guv_binary_path_str = current_exe_path
+        .context("Failed to get current executable path. Please ensure muv is in your PATH or provide the full path.")?;
+    let muv_binary_path_str = current_exe_path
         .to_str()
         .ok_or_else(|| anyhow::anyhow!("Executable path is not valid UTF-8"))?;
 
-    let escaped_guv_binary_path = guv_binary_path_str
+    let escaped_muv_binary_path = muv_binary_path_str
         .replace('\\', "\\\\")
         .replace('"', "\\\"");
 
@@ -128,7 +128,7 @@ fn generate_shell_script_content() -> Result<String> {
 # To re-generate, run 'muv init --force'.
 
 # Set this to the path of your muv binary if it's not in your PATH
-export MUV_BINARY_PATH="{escaped_guv_binary_path}"
+export MUV_BINARY_PATH="{escaped_muv_binary_path}"
 
 # Source the muv functions from separate file
 [ -f "$HOME/.muv-functions.sh" ] && source "$HOME/.muv-functions.sh"
