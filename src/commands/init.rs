@@ -74,7 +74,7 @@ muv() {{
             ret_code=$?
 
             if [ $ret_code -eq 0 ] && [ -n "$output" ]; then
-                // eval "$output"
+                eval "$output"
                 return $?
             elif [ $ret_code -ne 0 ]; then
                 return $ret_code
