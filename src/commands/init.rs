@@ -1,4 +1,4 @@
-use crate::InitArgs;
+use crate::cli::InitArgs;
 use anyhow::{Context, Result, bail};
 use std::env;
 use std::fs::{OpenOptions, read_to_string};

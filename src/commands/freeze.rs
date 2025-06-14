@@ -1,4 +1,4 @@
-use crate::EnvNameArg;
+use crate::cli::EnvNameArg;
 use crate::utils;
 use anyhow::Result;
 

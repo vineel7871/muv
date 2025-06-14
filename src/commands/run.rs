@@ -1,4 +1,4 @@
-use crate::RunArgs;
+use crate::cli::RunArgs;
 use crate::utils;
 use anyhow::{Context, Result};
 use std::process::Command;

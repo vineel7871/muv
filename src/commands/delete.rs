@@ -1,4 +1,4 @@
-use crate::DeleteArgs;
+use crate::cli::DeleteArgs;
 use crate::{error::MuvError, utils};
 use anyhow::Result;
 use std::io::{self, Write};

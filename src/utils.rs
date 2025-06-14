@@ -8,6 +8,11 @@ pub const ACTIVE_ENV_VAR: &str = "VIRTUAL_ENV";
 pub const MUV_ACTIVE_ENV_NAME_VAR: &str = "MUV_ENV_NAME";
 
 pub fn get_muv_home() -> Result<PathBuf> {
+    // Check if MUV_HOME environment variable is set (useful for testing)
+    if let Ok(muv_home) = std::env::var("MUV_HOME") {
+        return Ok(PathBuf::from(muv_home));
+    }
+    
     let base_dir = dirs::data_dir()
         .or_else(dirs::home_dir)
         .ok_or(MuvError::HomeDirError)?;
