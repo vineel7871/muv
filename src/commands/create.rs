@@ -47,15 +47,18 @@ pub fn handle_create(args: CreateArgs) -> Result<()> {
 
     println!("Environment '{}' created successfully.", env_name);
 
-    if args.packages.len() > 0 {
+    if args.packages.is_some() {
+
+        let pkgs = args.packages.unwrap();
+
         println!(
             "Installing package(s) [{}] into environment '{}'...",
-            args.packages.join(", "),
+            pkgs.join(", "),
             env_name
         );
 
         let mut uv_cmd_args = vec!["pip", "install"];
-        for pkg in &args.packages {
+        for pkg in &pkgs {
             uv_cmd_args.push(pkg.as_str());
         }
 

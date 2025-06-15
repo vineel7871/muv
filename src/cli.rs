@@ -93,7 +93,7 @@ pub struct CreateArgs {
     pub python: Option<String>,
 
     #[clap(required = true, num_args = 1.., help = "Packages to install", long_help = "List of packages to install or uninstall. You can specify version constraints using standard pip syntax (e.g., 'flask>=2.0', 'requests==2.28.1').")]
-    pub packages: Vec<String>,
+    pub packages: Option<Vec<String>>,
 }
 
 #[derive(Args, Debug)]
