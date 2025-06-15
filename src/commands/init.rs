@@ -36,7 +36,7 @@ fn generate_muv_function_content() -> Result<String> {
         .to_str()
         .ok_or_else(|| anyhow::anyhow!("Executable path is not valid UTF-8"))?;
 
-    let _escaped_muv_binary_path = muv_binary_path_str
+    let escaped_muv_binary_path = muv_binary_path_str
         .replace('\\', "\\\\")
         .replace('"', "\\\"");
 
@@ -48,17 +48,19 @@ muv() {{
     local cmd="$1"
     local output
     local ret_code
-    local muv_exe_path
-
-    if [ -n "$MUV_BINARY_PATH" ] && [ -x "$MUV_BINARY_PATH" ]; then
+    
+    # Always use the exact binary path to avoid recursion
+    local muv_exe_path="{escaped_muv_binary_path}"
+    
+    # Fall back to MUV_BINARY_PATH if the default path doesn't exist
+    if [ ! -x "$muv_exe_path" ] && [ -n "$MUV_BINARY_PATH" ] && [ -x "$MUV_BINARY_PATH" ]; then
         muv_exe_path="$MUV_BINARY_PATH"
-    elif command -v muv >/dev/null 2>&1; then
-        muv_exe_path="$(command -v muv)"
-    else
-        echo "Error: 'muv' executable not found." >&2
-        echo "Please ensure MUV_BINARY_PATH is set correctly in your shell config," >&2
-        echo "or that 'muv' is in your system PATH." >&2
-        echo "You might need to run 'muv init' again or manually edit your shell config." >&2
+    fi
+    
+    # Check if we have a valid executable
+    if [ ! -x "$muv_exe_path" ]; then
+        echo "Error: muv executable not found at $muv_exe_path" >&2
+        echo "Please set MUV_BINARY_PATH to the full path of the muv binary." >&2
         return 1
     fi
 
