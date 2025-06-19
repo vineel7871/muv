@@ -150,8 +150,26 @@ pub struct PackageManagementArgs {
     pub env_name: Option<String>,
 
     /// Packages to manage (e.g., requests, numpy, "flask>=2.0")
-    #[clap(required = true, num_args = 1.., help = "Packages to manage", long_help = "List of packages to install or uninstall. You can specify version constraints using standard pip syntax (e.g., 'flask>=2.0', 'requests==2.28.1').")]
+    #[clap(required = false, num_args = 0.., help = "Packages to manage", long_help = "List of packages to install or uninstall. You can specify version constraints using standard pip syntax (e.g., 'flask>=2.0', 'requests==2.28.1').")]
     pub packages: Vec<String>,
+
+    /// Install from requirements file
+    #[clap(
+        short,
+        long,
+        value_name = "REQUIREMENTS",
+        help = "Install from requirements.txt",
+        long_help = "Install all dependencies listed in the given requirements.txt file."
+    )]
+    pub requirements: Option<String>,
+
+    #[clap(
+        short = 't',
+        long = "toml",
+        help = "Install from pyproject.toml",
+        long_help = "Install all dependencies listed in the given pyproject.toml file"
+    )]
+    pub toml: Option<String>
 }
 
 #[derive(Args, Debug)]
