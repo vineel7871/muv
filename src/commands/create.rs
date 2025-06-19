@@ -48,7 +48,6 @@ pub fn handle_create(args: CreateArgs) -> Result<()> {
     println!("Environment '{}' created successfully.", env_name);
 
     if args.packages.is_some() {
-
         let pkgs = args.packages.unwrap();
 
         println!(

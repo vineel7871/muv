@@ -63,7 +63,7 @@ source ~/.bashrc  # or ~/.zshrc if using zsh
 # Create a new environment
 
 # Create a new environment
-muv create myenv --python 3.10
+muv create myenv --p 3.10
 
 # Activate an environment
 muv activate myenv
@@ -73,7 +73,27 @@ muv install numpy pandas
 
 # Run a command in an environment
 muv run myenv python script.py
+
+# Install from requirements.txt file
+muv install -r requirements.txt
+
+# Install from pyproject.toml file
+muv install -t pyproject.toml
 ```
+
+## Add Auto Complete Support
+users can generate completion scripts using:
+
+Bash:<br>
+`muv completions bash > /usr/local/etc/bash_completion.d/muv`
+
+Zsh:<br>
+`muv completions zsh > "${fpath[1]}/_muv"`
+
+Fish:<br>
+`muv completions fish > ~/.config/fish/completions/muv.fish"`
+
+And then source or restart their shell.
 
 ## Requirements
 

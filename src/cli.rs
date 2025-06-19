@@ -22,6 +22,13 @@ pub enum Commands {
         long_about = "Initialize muv in your shell configuration to enable environment activation and deactivation"
     )]
     Init(InitArgs),
+        
+    /// Generate shell completion scripts  
+    #[clap(long_about = "Generate shell completion scripts for bash, zsh, fish, or powershell")]
+    Completions {
+        #[clap(value_enum, help = "Shell type")]
+        shell: clap_complete::Shell,
+    },
 
     /// Create a new virtual environment
     #[clap(
@@ -169,7 +176,7 @@ pub struct PackageManagementArgs {
         help = "Install from pyproject.toml",
         long_help = "Install all dependencies listed in the given pyproject.toml file"
     )]
-    pub toml: Option<String>
+    pub toml: Option<String>,
 }
 
 #[derive(Args, Debug)]

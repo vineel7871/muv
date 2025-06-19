@@ -16,7 +16,10 @@ pub fn handle_install(args: PackageManagementArgs) -> Result<()> {
             None,
             vec![(utils::ACTIVE_ENV_VAR, env_path.as_path())],
         )?;
-        println!("Dependencies from '{}' installed successfully in '{}'.", req_file, env_name);
+        println!(
+            "Dependencies from '{}' installed successfully in '{}'.",
+            req_file, env_name
+        );
     }
 
     if let Some(req_file) = &args.toml {
@@ -47,7 +50,10 @@ pub fn handle_install(args: PackageManagementArgs) -> Result<()> {
                 )?;
             }
         }
-        println!("Dependencies from pyproject.toml installed successfully in '{}'.", env_name);
+        println!(
+            "Dependencies from pyproject.toml installed successfully in '{}'.",
+            env_name
+        );
     }
 
     if !args.packages.is_empty() {

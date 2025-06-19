@@ -1,3 +1,5 @@
+use std::io;
+
 use anyhow::Result;
 
 mod cli;
@@ -5,8 +7,9 @@ mod commands;
 mod error;
 mod utils;
 
-use clap::Parser;
+use clap::{CommandFactory, Parser};
 use cli::{Cli, Commands};
+use clap_complete::{generate};
 
 fn main() -> Result<()> {
     if let Err(e) = utils::check_uv_exists() {
@@ -32,5 +35,10 @@ fn main() -> Result<()> {
         Commands::Path(args) => commands::path::handle_path(args),
         Commands::Home => commands::home::handle_home(),
         Commands::Run(args) => commands::run::handle_run(args),
+        Commands::Completions { shell } => {
+            let mut cmd = Cli::command();
+            generate(shell, &mut cmd, "muv", &mut io::stdout());
+            Ok(())
+        }
     }
 }
