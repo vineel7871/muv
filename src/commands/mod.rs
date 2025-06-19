@@ -1,5 +1,4 @@
 pub mod activate;
-pub mod add;
 pub mod create;
 pub mod deactivate;
 pub mod delete;
@@ -9,6 +8,5 @@ pub mod init;
 pub mod install;
 pub mod list;
 pub mod path;
-pub mod remove;
 pub mod run;
 pub mod uninstall;
