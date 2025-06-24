@@ -8,8 +8,8 @@ mod error;
 mod utils;
 
 use clap::{CommandFactory, Parser};
+use clap_complete::generate;
 use cli::{Cli, Commands};
-use clap_complete::{generate};
 
 fn main() -> Result<()> {
     if let Err(e) = utils::check_uv_exists() {

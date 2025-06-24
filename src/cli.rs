@@ -22,7 +22,7 @@ pub enum Commands {
         long_about = "Initialize muv in your shell configuration to enable environment activation and deactivation"
     )]
     Init(InitArgs),
-        
+
     /// Generate shell completion scripts  
     #[clap(long_about = "Generate shell completion scripts for bash, zsh, fish, or powershell")]
     Completions {
