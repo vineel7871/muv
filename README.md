@@ -12,13 +12,20 @@ A command-line tool for managing global Python virtual environments using uv.
 
 ## Installation
 
-### Option 1: Using Cargo
+### Option 1: Using Homebrew (macOS)
+
+```bash
+brew tap vineel7871/muv
+brew install muv
+```
+
+### Option 2: Using Cargo
 
 ```bash
 cargo install muv
 ```
 
-### Option 2: Download pre-built binaries
+### Option 3: Download pre-built binaries
 
 1. Go to the [Releases page](https://github.com/vineel7871/muv/releases)
 2. Download the appropriate binary for your system:
